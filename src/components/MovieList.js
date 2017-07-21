@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ListView } from 'react-native';
 import { Container, Content, Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
 
 import * as actions from '../actions';
 import MovieListItem from '../components/common/MovieListItem';
@@ -10,6 +11,8 @@ class MovieList extends Component {
   constructor(props) {
         super(props);
         this.state = { tab: 'movie', movieCount: 0, tvCount: 0, personCount: 0 };
+        this.renderRow = this.renderRow.bind(this);
+        this.deneme = this.deneme.bind(this);
     }
 componentWillMount() {
     if (this.props.movies) {
@@ -37,8 +40,11 @@ countType(type) {
         const countTypes = this.props.movies.filter(movie => movie.media_type === type);
         return countTypes.length;
     }
-renderRow(movie) {
-return <MovieListItem movie={movie} />;
+deneme() {
+  this.props.navigation.navigate('Main');
+}
+renderRow = (movie) => {
+return <MovieListItem navigation={this.props.navigation} onPress={this.deneme} movie={movie} />;
 }
 
   render() {
@@ -54,8 +60,8 @@ return <MovieListItem movie={movie} />;
       return (
         <Container>
           <Content>
-            <Text>
-              Sorry, no movies found.
+            <Text button onPress={this.deneme}>
+              Sorry, nothing found.
             </Text>
           </Content>
         </Container>
@@ -80,4 +86,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, actions)(MovieList);
+export default withNavigation(connect(mapStateToProps, actions)(MovieList));
