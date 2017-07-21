@@ -33,7 +33,7 @@ const MovieListItem = ({ movie, onPress }) => {
               <Left>
                 <Button transparent>
                   <Icon name="md-share-alt" />
-                  <Text button onPress={() => onPress(movie)}>1,926 stars</Text>
+                  <Text>1,926 stars</Text>
                 </Button>
               </Left>
             </CardItem>

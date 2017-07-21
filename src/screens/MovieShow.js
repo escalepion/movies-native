@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { Content } from 'native-base';
+
+import MovieDetail from '../components/common/MovieDetail';
 
 class MovieShow extends Component {
     render() {
+        const { movie } = this.props.navigation.state.params;
         return (
-            <View>  
-                Movie show
-            </View>
+            <Content>
+                <MovieDetail movie={movie} />
+            </Content>
         );
     }
 }

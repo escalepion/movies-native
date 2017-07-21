@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
-import { Container, Content, Spinner, Text } from 'native-base';
+import { Content, Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
@@ -12,7 +12,7 @@ class MovieList extends Component {
         super(props);
         this.state = { tab: 'movie', movieCount: 0, tvCount: 0, personCount: 0 };
         this.renderRow = this.renderRow.bind(this);
-        this.deneme = this.deneme.bind(this);
+        this.navigateTo = this.navigateTo.bind(this);
     }
 componentWillMount() {
     if (this.props.movies) {
@@ -23,7 +23,7 @@ componentWillMount() {
     this.dataSource = ds.cloneWithRows(this.filterMovies(this.props.tab));
     }
 }
-  componentWillUpdate() {
+  componentWillReceiveProps() {
     if (this.props.movies) {
     const ds = new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
@@ -40,11 +40,11 @@ countType(type) {
         const countTypes = this.props.movies.filter(movie => movie.media_type === type);
         return countTypes.length;
     }
-deneme() {
-  this.props.navigation.navigate('Main');
+navigateTo(movie) {
+  this.props.navigation.navigate('MovieShow', { movie });
 }
 renderRow = (movie) => {
-return <MovieListItem navigation={this.props.navigation} onPress={this.deneme} movie={movie} />;
+return <MovieListItem navigation={this.props.navigation} onPress={(to) => this.navigateTo(to)} movie={movie} />;
 }
 
   render() {
