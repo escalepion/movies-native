@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
+import { Container } from 'native-base'; 
 
 import reducers from './src/reducers';
 import { RootNavigator } from './src/navigation/routes';
@@ -17,7 +18,9 @@ class App extends React.Component {
     const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
     return (
     <Provider store={createStoreWithMiddleware(reducers)}>
+    <Container>
       <RootNavigator />
+    </Container>
     </Provider>
     );
   }

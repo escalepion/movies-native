@@ -50,32 +50,26 @@ return <MovieListItem navigation={this.props.navigation} onPress={this.deneme} m
   render() {
     if (this.props.loading) {
       return (
-      <Container>
         <Content>
           <Spinner />
         </Content>
-      </Container>
       );
     } else if (this.props.movies && !this.countType(this.props.tab)) {
       return (
-        <Container>
           <Content>
             <Text button onPress={this.deneme}>
               Sorry, nothing found.
             </Text>
           </Content>
-        </Container>
       );
     }
     return (
-    <Container>
       <Content>
       <ListView 
         dataSource={this.dataSource}
         renderRow={this.renderRow}
       />
       </Content>
-    </Container>
     );
   }
 }
