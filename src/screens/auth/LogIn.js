@@ -10,10 +10,10 @@ class LogIn extends Component {
         <Content>
           <Form>
             <Item placeholderLabel>
-              <Input placeholder="Username" />
+              <Input style={{ flex: 1 }} placeholder="Username" />
             </Item>
             <Item last placeholderLabel>
-              <Input placeholder="Password" />
+              <Input style={{ flex: 1 }} placeholder="Password" />
             </Item>
           </Form>
           <Button block style={{ margin: 15, marginTop: 50 }}>
