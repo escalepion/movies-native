@@ -4,7 +4,10 @@ import MoviesContainer from '../screens/MoviesContainer';
 import Main from '../screens/Main';
 import MovieShow from '../screens/MovieShow';
 
-export const RootNavigator = StackNavigator({
+import LogIn from '../screens/auth/LogIn';
+import SignUp from '../screens/auth/SignUp';
+
+export const LoggedIn = StackNavigator({
 Main: { 
     screen: Main,
     navigationOptions: {
@@ -24,3 +27,31 @@ MovieShow: {
     }
 }
 });
+
+export const LoggedOut = StackNavigator({
+    LogIn: {
+        screen: LogIn,
+        navigationOptions: {
+            title: 'Log In'
+        }
+    },
+    SignUp: {
+        screen: SignUp,
+        navigationOptions: {
+            title: 'Sign Up'
+        }
+    }
+});
+
+export const RootNavigator = StackNavigator({
+    LoggedOut: {
+        screen: LoggedOut,
+    },
+    LoggedIn: {
+        screen: LoggedIn
+    }
+},
+{
+    headerMode: 'none'
+}
+);
