@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Content, Form, Item, Input, Button, Text } from 'native-base';
+
+import * as actions from '../../actions';
 
 const renderField = ({ input, placeholder, keyboardType, secureTextEntry, meta: { touched, error } }) => (
   <View>
@@ -19,8 +22,8 @@ const renderField = ({ input, placeholder, keyboardType, secureTextEntry, meta: 
 );
  
 class LogIn extends Component {
-    handleOnPress() {
-        this.props.navigation.navigate('SignUp');
+    handleFormSubmit(values) {
+        this.props.signInUser(values);
     }
     render() {
       const { handleSubmit } = this.props;
@@ -40,7 +43,7 @@ class LogIn extends Component {
             component={renderField}
             />
           </Form>
-          <Button onPress={handleSubmit(this.handleOnPress.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
+          <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
             <Text>Sign In</Text>
           </Button>
         </Content>
@@ -69,9 +72,13 @@ errorText: {
 }
 };
 
+function mapStateToProps(state) {
+    return { errorMessage: state.auth.error };
+}
+
 const LogInForm = reduxForm({
     form: 'login',
     validate
 })(LogIn);
 
-export default LogInForm;
+export default connect(mapStateToProps, actions)(LogInForm);

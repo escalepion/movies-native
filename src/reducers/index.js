@@ -3,8 +3,10 @@ import { reducer as form } from 'redux-form';
 
 
 import MoviesReducer from './movies_reducer';
+import AuthReducer from './auth_reducer';
 
 export default combineReducers({
 form,
-movies: MoviesReducer
+movies: MoviesReducer,
+auth: AuthReducer
 });
