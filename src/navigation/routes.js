@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
 
 import MoviesContainer from '../screens/MoviesContainer';
 import Main from '../screens/Main';
@@ -6,6 +6,7 @@ import MovieShow from '../screens/MovieShow';
 
 import LogIn from '../screens/auth/LogIn';
 import SignUp from '../screens/auth/SignUp';
+import SignOut from '../screens/auth/SignOut';
 
 export const LoggedIn = StackNavigator({
 Main: { 
@@ -27,6 +28,27 @@ MovieShow: {
     }
 }
 });
+
+export const DrawNav = DrawerNavigator(
+  {
+    LoggedMain: {
+      path: '/',
+      screen: LoggedIn,
+       drawerLabel: 'Main Draw',
+    },
+    SignOut: {
+      path: '/sent',
+      screen: SignOut,
+       drawerLabel: 'Notifications'
+    },
+  },
+  {
+    initialRouteName: 'LoggedMain',
+    contentOptions: {
+      activeTintColor: '#e91e63',
+    },
+  }
+);
 
 export const LoggedOut = StackNavigator({
     LogIn: {
@@ -60,7 +82,7 @@ export const createRootNavigator = (signedIn = false) => {
   return StackNavigator(
     {
       SignedIn: {
-        screen: LoggedIn,
+        screen: DrawNav,
         navigationOptions: {
           gesturesEnabled: false
         }
