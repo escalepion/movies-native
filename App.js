@@ -8,6 +8,8 @@ import { Container, Content, Spinner } from 'native-base';
 import ProviderApp from './ProviderApp';
 import reducers from './src/reducers';
 
+console.ignoredYellowBox = ['Setting a timer'];
+
 class App extends Component {
      state = {
     isReady: false,

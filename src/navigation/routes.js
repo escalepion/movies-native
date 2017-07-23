@@ -55,3 +55,27 @@ export const RootNavigator = StackNavigator({
     headerMode: 'none'
 }
 );
+
+export const createRootNavigator = (signedIn = false) => {
+  return StackNavigator(
+    {
+      SignedIn: {
+        screen: LoggedIn,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
+      },
+      SignedOut: {
+        screen: LoggedOut,
+        navigationOptions: {
+          gesturesEnabled: false
+        }
+      }
+    },
+    {
+      headerMode: "none",
+      mode: "modal",
+      initialRouteName: signedIn ? "SignedIn" : "SignedOut"
+    }
+  );
+};

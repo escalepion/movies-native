@@ -1,12 +1,15 @@
 import React from 'react';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { Container } from 'native-base'; 
+import { Container, Spinner } from 'native-base'; 
 
 import { userLoggedIn, userLoggedOut, fetchCurrentUser } from './src/actions';
-import { RootNavigator } from './src/navigation/routes';
+import { createRootNavigator } from './src/navigation/routes';
 
 class ProviderApp extends React.Component {
+  state = {
+    loading: true
+  }
 componentWillMount() {
 const config = {
     apiKey: 'AIzaSyDJcXKuZI13TUWzKK6kXdZA3Gxu1XuvMNk',
@@ -17,23 +20,28 @@ const config = {
     messagingSenderId: '790483019248'
   };
   firebase.initializeApp(config);
-
   firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.userLoggedIn();
         this.props.fetchCurrentUser(firebase.auth().currentUser.uid);
+        this.setState({ loading: false });
       } else {
         this.props.userLoggedOut();
+        this.setState({ loading: false });
       }
     });
   }
   render() {
     firebase.auth().currentUser ? console.log(firebase.auth().currentUser.uid) : console.log('no user');
+      const RootNavigator = createRootNavigator(this.props.userLogged);
+    if (this.state.loading) {
       return (
-    <Container>
-      <RootNavigator />
-    </Container>
+        <Container>
+          <Spinner />
+        </Container>
       );
+    }
+    return <RootNavigator />;
   }
 }
 
