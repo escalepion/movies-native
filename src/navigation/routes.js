@@ -34,12 +34,16 @@ export const DrawNav = DrawerNavigator(
     LoggedMain: {
       path: '/',
       screen: LoggedIn,
-       drawerLabel: 'Main Draw',
+       navigationOptions: {
+        drawerLabel: 'Main'
+    }
     },
     SignOut: {
       path: '/sent',
       screen: SignOut,
-       drawerLabel: 'Notifications'
+      navigationOptions: {
+        drawerLabel: 'Sign Out'
+    }
     },
   },
   {

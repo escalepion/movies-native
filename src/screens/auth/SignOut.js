@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-import { Button, Text } from 'native-base';
+import { connect } from 'react-redux';
+import { Content, Button, Text } from 'native-base';
+
+import * as actions from '../../actions';
 
 class SignOut extends Component {
+    componentWillMount() {
+        this.props.userLoggedOut();
+    }
     render() {
         return (
-            <Button>
-                <Text>
-                    Sign Out
-                </Text>
-            </Button>
+            <Content>
+                <Button>
+                    <Text>
+                        You are logging out
+                    </Text>
+                </Button>
+            </Content>
         );
     }
 }
 
-export default SignOut;
+export default connect(null, actions)(SignOut);
