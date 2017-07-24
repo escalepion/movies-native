@@ -22,6 +22,9 @@ const renderField = ({ input, placeholder, keyboardType, secureTextEntry, meta: 
 );
  
 class SignUp extends Component {
+    componentWillMount() {
+        this.props.clearFormError();
+    }
     componentWillUnmount() {
         this.props.clearFormError();
     }
