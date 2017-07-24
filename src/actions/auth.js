@@ -5,7 +5,9 @@ import {
     FETCH_CURRENT_USER,
     USER_LOGGED_OUT,
     SET_LOGIN_LOADING_TRUE,
-    SET_LOGIN_LOADING_FALSE
+    SET_LOGIN_LOADING_FALSE,
+    USER_SIGNUP_SUCCESS,
+    CLEAR_FORM_ERROR
 } from './types';
 
 export function signInUser({ email, password }) {
@@ -23,6 +25,25 @@ export function signInUser({ email, password }) {
         dispatch({ type: USER_SIGNUP_FAIL, payload: error.message });
         dispatch(setLoginLoading(false));
              });
+    };
+}
+
+export function signUpUser({ email, password, username }) {
+    const db = firebase.database();
+    return function (dispatch) {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(function (user) {
+        dispatch({ type: USER_SIGNUP_SUCCESS });
+        db.ref(`users/${user.uid}`).set({ name: username });
+        dispatch(setLoginLoading(false));
+
+  //Here if you want you can sign in the user
+})
+    .catch(error => {
+        const error_message = error.message;
+        dispatch({ type: USER_SIGNUP_FAIL, payload: error_message });
+        dispatch(setLoginLoading(false));
+    });
     };
 }
 
@@ -60,5 +81,12 @@ export function setLoginLoading(status) {
     return {
         type: SET_LOGIN_LOADING_FALSE
     };
+}
+
+export function clearFormError() {
+    console.log('clear');
+return {
+    type: CLEAR_FORM_ERROR
+};
 }
 

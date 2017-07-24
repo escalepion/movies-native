@@ -22,9 +22,19 @@ const renderField = ({ input, placeholder, keyboardType, secureTextEntry, meta: 
 );
  
 class LogIn extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSignUpPress = this.handleSignUpPress.bind(this);
+    }
+    componentWillUnmount() {
+        this.props.clearFormError();
+    }
     handleFormSubmit(values) {
         this.props.signInUser(values);
         this.props.setLoginLoading(true);
+    }
+    handleSignUpPress() {
+        this.props.navigation.navigate('SignUp');
     }
     render() {
       const { handleSubmit } = this.props;
@@ -50,7 +60,13 @@ class LogIn extends Component {
             <Text>Sign In</Text>
           </Button>
           <Text style={{ textAlign: 'center' }} note >Or</Text>
-          <Button iconLeft success bordered style={{ marginBottom: 10, marginTop: 10, alignSelf: 'center' }}>
+          <Button 
+            iconLeft 
+            success 
+            bordered 
+            onPress={this.handleSignUpPress}
+            style={{ marginBottom: 10, marginTop: 10, alignSelf: 'center' }}
+          >
             <Icon active name="ios-person-add-outline" />
             <Text>Sign Up</Text>
           </Button>
