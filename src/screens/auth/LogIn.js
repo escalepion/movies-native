@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { Content, Card, Form, Item, Input, Button, Text, Spinner } from 'native-base';
+import { Content, Card, Form, Item, Input, Button, Text, Spinner, Icon } from 'native-base';
 
 import * as actions from '../../actions';
 
@@ -48,6 +48,11 @@ class LogIn extends Component {
           </Form>
           <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
             <Text>Sign In</Text>
+          </Button>
+          <Text style={{ textAlign: 'center' }} note >Or</Text>
+          <Button iconLeft success bordered style={{ marginBottom: 10, marginTop: 10, alignSelf: 'center' }}>
+            <Icon active name="ios-person-add-outline" />
+            <Text>Sign Up</Text>
           </Button>
           {this.props.errorMessage && <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.errorMessage}</Text>}
         { this.props.loading && <Spinner />}

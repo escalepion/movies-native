@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListView } from 'react-native';
-import { Content, Spinner, Text } from 'native-base';
+import { Content, Card, Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
@@ -51,15 +51,19 @@ return <MovieListItem navigation={this.props.navigation} onPress={(to) => this.n
     if (this.props.loading) {
       return (
         <Content>
-          <Spinner />
+          <Card>
+            <Spinner />
+          </Card>
         </Content>
       );
     } else if (this.props.movies && !this.countType(this.props.tab)) {
       return (
           <Content>
-            <Text button onPress={this.deneme}>
+            <Card>
+            <Text style={{ margin: 5, color: 'red' }} button onPress={this.deneme}>
               Sorry, nothing found.
             </Text>
+            </Card>
           </Content>
       );
     }

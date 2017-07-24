@@ -14,8 +14,10 @@ handleOnChange(event) {
   this.setState({ term: event.target.value });
 }
 handlePress() {
+  if (this.state.term !== '') {
   this.props.navigation.navigate('MovieList');
   this.props.fetchMovies(this.state.term);
+  }
 }
   render() {
     return (
