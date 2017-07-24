@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { Content, Form, Item, Input, Button, Text } from 'native-base';
+import { Content, Card, Form, Item, Input, Button, Text, Spinner } from 'native-base';
 
 import * as actions from '../../actions';
 
@@ -24,13 +24,16 @@ const renderField = ({ input, placeholder, keyboardType, secureTextEntry, meta: 
 class LogIn extends Component {
     handleFormSubmit(values) {
         this.props.signInUser(values);
+        this.props.setLoginLoading(true);
     }
     render() {
       const { handleSubmit } = this.props;
         return (
         <Content>
+            <Card>
           <Form>
             <Field 
+            style={{ marginTop: 10 }}
             name='email'
             placeholder="E-mail"
             keyboardType='email-address'
@@ -46,6 +49,9 @@ class LogIn extends Component {
           <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
             <Text>Sign In</Text>
           </Button>
+          {this.props.errorMessage && <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.errorMessage}</Text>}
+        { this.props.loading && <Spinner />}
+          </Card>
         </Content>
         );
     }
@@ -73,7 +79,10 @@ errorText: {
 };
 
 function mapStateToProps(state) {
-    return { errorMessage: state.auth.error };
+    return { 
+        errorMessage: state.auth.error, 
+        loading: state.auth.loading
+    };
 }
 
 const LogInForm = reduxForm({
