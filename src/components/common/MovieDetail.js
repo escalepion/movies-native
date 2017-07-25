@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Icon, Card, CardItem, Text, Thumbnail, Left, Body } from 'native-base';
 
-const MovieListItem = ({ movie, onPress }) => {
+const MovieListItem = ({ movie }) => {
   let url= null;
     if (movie.poster_path) {
        url = `https://image.tmdb.org/t/p/w185${movie.poster_path}`;
@@ -28,14 +28,6 @@ const MovieListItem = ({ movie, onPress }) => {
               </Text>
 
               </Body>
-            </CardItem>
-            <CardItem style={{ paddingVertical: 0 }}>
-              <Left>
-                <Button transparent>
-                  <Icon name="md-share-alt" />
-                  <Text>1,926 stars</Text>
-                </Button>
-              </Left>
             </CardItem>
           </Card>
     );
