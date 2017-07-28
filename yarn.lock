@@ -4758,7 +4758,7 @@ react-native-easy-grid@0.1.7:
   dependencies:
     eventemitter3 "^2.0.2"
 
-react-native-keyboard-aware-scroll-view@0.2.9:
+react-native-keyboard-aware-scroll-view@0.2.9, react-native-keyboard-aware-scroll-view@^0.2.9:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.2.9.tgz#2a1ae49cfae90a9665b21763c1f8bd03ed5fb92c"
   dependencies:

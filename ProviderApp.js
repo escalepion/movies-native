@@ -41,7 +41,11 @@ const config = {
         </Container>
       );
     }
-    return <RootNavigator />;
+    return (
+  <Container>
+    <RootNavigator />
+  </Container>
+  );
   }
 }
 

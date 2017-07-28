@@ -3,6 +3,7 @@ import { Content } from 'native-base';
 
 import MovieDetail from '../components/common/MovieDetail';
 import Comments from '../components/common/Comments';
+import CommentText from '../components/common/CommentText';
 
 class MovieShow extends Component {
     render() {
@@ -12,6 +13,7 @@ class MovieShow extends Component {
             <Content>
                 <MovieDetail movie={movie} />
                 <Comments movie={movie} />
+                <CommentText movie={movie} />
             </Content>
         );
     }
