@@ -1,85 +1,106 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View } from 'react-native';
+import { Modal, Text, TouchableHighlight, View, TouchableWithoutFeedback } from 'react-native';
+import { reset, reduxForm, Field } from 'redux-form';
+import { Card, Button, Input, Item, Form } from 'native-base';
+import { connect } from 'react-redux';
 
-import CommentText from '../components/common/CommentText';
-import { TextArea } from '../components/common/TextArea';
-import { CardSection } from '../components/common/CardSection';
-import { Button } from '../components/common/Button';
+import * as actions from '../actions/comments';
 
-class ModalExample extends Component {
+const renderField = ({ input, placeholder, multiline, numberOfLines, meta: { touched, error } }) => (
+  <View>
+  <Item placeholderLabel>
+    <Input 
+    style={{ flex: 1 }} 
+    {...input} 
+    placeholder={placeholder}
+    multiline={multiline}
+    numberOfLines={numberOfLines}
+    />
+  </Item>
+  {touched && error && <Text style={styles.errorText}>{error}</Text>}
+  </View>
+);
+
+class Comment extends Component {
 
   state = {
     modalVisible: false,
   }
 
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
-
+handleFormSubmit(values) {
+       this.props.addComment(values, this.props.movie.id);
+    }
   render() {
-      const { cardSectionStyle, containerStyle } = styles;
+    const { handleSubmit, addCommentFeedback } = this.props;
+    console.log(addCommentFeedback);
     return (
       <View style={{marginTop: 22}}>
         <Modal
           animationType={"slide"}
-          transparent={false}
+          transparent
           visible={this.state.modalVisible}
           onRequestClose={() => {alert("Modal has been closed.")}}
-          >
-         <View style={{marginTop: 22}}>
-          <View>
-            <Text>Hello World!</Text>
-
-            <TouchableHighlight 
-            onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}>
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
-          </View>
-         </View>
-                <View style={containerStyle}>
-                <CardSection style={cardSectionStyle}>
-                <TextArea
-                value={this.props.not}
-                onChangeText={not => this.props.notTut(not)} 
-                placeholder="Aklınızda kalmasını istediğiniz bişeyler yazın" 
+        >
+         <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                <Card>
+                <Form>
+                <Field 
+                        name='comment'
+                        placeholder="Ad a comment"
+                        component={renderField}
+                        multiline
+                        numberOfLines={10}
                 />
-                </CardSection>
-
-                <CardSection>
-                <Button>Ekle</Button>
-                <Button>İptal</Button>
-                </CardSection>
-
-            </View>
+               </Form>
+                <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
+                        <Text>Add Comment</Text>
+                </Button>
+                    {addCommentFeedback && <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.addCommentFeedback}</Text>}
+                </Card>
+          </TouchableWithoutFeedback>
         </Modal>
 
-        <TouchableHighlight onPress={() => {
-          this.setModalVisible(true)
-        }}>
-          <Text>Show Modal</Text>
+        <TouchableHighlight onPress={() => this.setModalVisible(true)}>
+                <Text>asdasd</Text>
         </TouchableHighlight>
 
       </View>
     );
   }
 }
+
 const styles = {
-    cardSectionStyle: {
-        justifyContent: 'center'
-    },
-    textStyle: {
-        flex: 1,
-        fontSize: 18,
-        textAlign: 'center',
-        lineHeight: 40
-    },
-    containerStyle: {
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        position: 'relative',
-        flex: 1,
-        justifyContent: 'center'
-    }
+errorText: {
+    fontSize: 10,
+    margin: 5,
+    color: 'red'
+}
 };
-export default ModalExample;
+
+function validate(values) {
+    const errors = {};
+    if (!values.comment) {
+        errors.comment = 'Pls enter a comment';
+    }
+
+    return errors;
+}
+
+const afterSubmit = (result, dispatch) => {
+  dispatch(reset('addCommentForm'));
+};
+
+const addCommentForm = reduxForm({
+    form: 'addCommentForm',
+    onSubmitSuccess: afterSubmit,
+    validate
+})(Comment);
+
+function mapStateToProps(state) {
+    return { addCommentFeedback: state.comments.feedback };
+}
+
+export default connect(mapStateToProps, actions)(addCommentForm);

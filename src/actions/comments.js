@@ -16,7 +16,7 @@ export function addComment({ comment }, id) {
             userId: currentUser.uid
         })
         .then(function () {
-            dispatch({ type: ADD_COMMENT_FEEDBACK, payload: 'Comment Added Successfuly'});
+            dispatch({ type: ADD_COMMENT_FEEDBACK, payload: 'Comment Added Successfuly' });
 //             setTimeout(() => {
 //     dispatch({ type: RESET_FEEDBACK_STATUS })
 //   }, 3000);
@@ -33,7 +33,7 @@ export function addComment({ comment }, id) {
 return {
     type: ADD_COMMENT_FEEDBACK,
     payload: 'Please log in'
-}
+};
 }
 
 export function resetFeedbackStatus() {
