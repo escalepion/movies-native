@@ -26,6 +26,11 @@ class Comment extends Component {
   state = {
     modalVisible: false,
   }
+  componentWillUpdate() {
+    if (this.props.addCommentFeedback) {
+      this.setModalVisible(false);
+    }
+  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -42,7 +47,7 @@ handleFormSubmit(values) {
           animationType={"slide"}
           transparent
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
+          onRequestClose={() => { alert("Modal has been closed.")}}
         >
          <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
                 <Card>

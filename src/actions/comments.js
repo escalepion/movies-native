@@ -23,7 +23,7 @@ export function addComment({ comment }, id) {
     }
         )
         .then(setTimeout(() => {
-                dispatch({ type: RESET_FEEDBACK_STATUS })
+                dispatch({ type: RESET_FEEDBACK_STATUS });
             }, 3000))
         .catch(error => {
             dispatch({ type: ADD_COMMENT_FEEDBACK, payload: error });
