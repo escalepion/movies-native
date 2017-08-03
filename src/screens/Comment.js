@@ -43,7 +43,7 @@ handleFormSubmit(values) {
           animationType={'slide'}
           transparent
           visible={this.state.modalVisible}
-          onRequestClose={() => {}}
+          onRequestClose={() => { this.setModalVisible(false); }}
         >
          <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
                 <Card style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', justifyContent: 'flex-end' }}>
@@ -54,6 +54,7 @@ handleFormSubmit(values) {
                         component={renderField}
                         multiline
                         numberOfLines={2}
+                        onSubmitEditing={handleSubmit(this.handleFormSubmit.bind(this))}
                 />
                </Form>
               <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
