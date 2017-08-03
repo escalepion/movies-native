@@ -33,30 +33,14 @@ class Comment extends Component {
   }
 handleFormSubmit(values) {
        this.props.addComment(values, this.props.movie.id);
+       this.setModalVisible(false);
     }
   render() {
     const { handleSubmit, addCommentFeedback } = this.props;
-    console.log(addCommentFeedback);
-    if (this.props.commentLoading) {
-      return (
-        <Modal
-          animationType={"slide"}
-          transparent
-          visible={this.state.modalVisible}
-          onRequestClose={() => { alert("Modal has been closed.")}}
-        >
-         <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
-        <Card>
-          <Spinner />
-        </Card>
-        </TouchableWithoutFeedback>
-        </Modal>
-      );
-    }
     return (
       <View style={{marginTop: 22}}>
         <Modal
-          animationType={"slide"}
+          animationType={'slide'}
           transparent
           visible={this.state.modalVisible}
           onRequestClose={() => {}}
@@ -80,6 +64,7 @@ handleFormSubmit(values) {
           </TouchableWithoutFeedback>
         </Modal>
       <Card>
+        {this.props.commentLoading && <Spinner />}
         <Button success block onPress={() => this.setModalVisible(true)}>
                 <Text style={{ color: 'white' }}>Write a comment</Text>
         </Button>
