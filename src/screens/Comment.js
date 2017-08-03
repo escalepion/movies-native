@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View, TouchableWithoutFeedback } from 'react-native';
 import { reset, reduxForm, Field } from 'redux-form';
-import { Card, Button, Input, Item, Form } from 'native-base';
+import { Card, Button, Input, Item, Form, Spinner } from 'native-base';
 import { connect } from 'react-redux';
 
 import * as actions from '../actions/comments';
@@ -10,9 +10,10 @@ const renderField = ({ input, placeholder, multiline, numberOfLines, meta: { tou
   <View>
   <Item placeholderLabel>
     <Input 
-    style={{ flex: 1 }} 
+    style={{ flex: 1, color: 'white' }} 
     {...input} 
     placeholder={placeholder}
+    placeholderTextColor='white'
     multiline={multiline}
     numberOfLines={numberOfLines}
     />
@@ -26,11 +27,6 @@ class Comment extends Component {
   state = {
     modalVisible: false,
   }
-  componentWillUpdate() {
-    if (this.props.addCommentFeedback) {
-      this.setModalVisible(false);
-    }
-  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -41,8 +37,8 @@ handleFormSubmit(values) {
   render() {
     const { handleSubmit, addCommentFeedback } = this.props;
     console.log(addCommentFeedback);
-    return (
-      <View style={{marginTop: 22}}>
+    if (this.props.commentLoading) {
+      return (
         <Modal
           animationType={"slide"}
           transparent
@@ -50,28 +46,45 @@ handleFormSubmit(values) {
           onRequestClose={() => { alert("Modal has been closed.")}}
         >
          <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
-                <Card>
+        <Card>
+          <Spinner />
+        </Card>
+        </TouchableWithoutFeedback>
+        </Modal>
+      );
+    }
+    return (
+      <View style={{marginTop: 22}}>
+        <Modal
+          animationType={"slide"}
+          transparent
+          visible={this.state.modalVisible}
+          onRequestClose={() => {}}
+        >
+         <TouchableWithoutFeedback onPress={() => this.setModalVisible(false)}>
+                <Card style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', justifyContent: 'flex-end' }}>
                 <Form>
                 <Field 
                         name='comment'
                         placeholder="Ad a comment"
                         component={renderField}
                         multiline
-                        numberOfLines={10}
+                        numberOfLines={2}
                 />
                </Form>
-                <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
-                        <Text>Add Comment</Text>
-                </Button>
-                    {addCommentFeedback && <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.addCommentFeedback}</Text>}
+              <Button onPress={handleSubmit(this.handleFormSubmit.bind(this))} block style={{ margin: 15, marginTop: 50 }}>
+                        <Text style={{ color: 'white' }}>Add comment</Text>
+              </Button>
+                   
                 </Card>
           </TouchableWithoutFeedback>
         </Modal>
-
-        <TouchableHighlight onPress={() => this.setModalVisible(true)}>
-                <Text>asdasd</Text>
-        </TouchableHighlight>
-
+      <Card>
+        <Button success block onPress={() => this.setModalVisible(true)}>
+                <Text style={{ color: 'white' }}>Write a comment</Text>
+        </Button>
+      </Card>
+ {addCommentFeedback && <Text style={{ textAlign: 'center', color: 'red' }}>{this.props.addCommentFeedback}</Text>}
       </View>
     );
   }
@@ -105,7 +118,10 @@ const addCommentForm = reduxForm({
 })(Comment);
 
 function mapStateToProps(state) {
-    return { addCommentFeedback: state.comments.feedback };
+    return { 
+      addCommentFeedback: state.comments.feedback,
+      commentLoading: state.comments.commentSendLoading
+    };
 }
 
 export default connect(mapStateToProps, actions)(addCommentForm);
