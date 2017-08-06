@@ -3,13 +3,15 @@ import {
     RESET_FEEDBACK_STATUS,
     FETCH_MOVIE_COMMENTS,
     CLEAR_MOVIE_COMMENTS,
-    COMMENT_SEND_LOADING
+    COMMENT_SEND_LOADING,
+    COMMENT_REMOVED
 } from '../actions/types';
 
 const INITIAL_STATE = {
     feedback: null,
     movieComments: null,
-    commentSendLoading: false
+    commentSendLoading: false,
+    removeMessage: null
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -24,6 +26,8 @@ export default function (state = INITIAL_STATE, action) {
             return { ...state, feedback: null };
         case COMMENT_SEND_LOADING:
             return { ...state, commentSendLoading: action.payload };
+        case COMMENT_REMOVED:
+            return { ...state, removeMessage: action.payload };
         default:
             return state;
     }

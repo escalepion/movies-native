@@ -8,7 +8,6 @@ import Comment from './Comment';
 class MovieShow extends Component {
     render() {
         const { movie } = this.props.navigation.state.params;
-        console.log(movie);
         return (
             <Content>
                 <MovieDetail movie={movie} />

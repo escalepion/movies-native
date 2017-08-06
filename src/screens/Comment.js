@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View, TouchableWithoutFeedback } from 'react-native';
+import { Modal, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { reset, reduxForm, Field } from 'redux-form';
 import { Card, Button, Input, Item, Form, Spinner } from 'native-base';
 import { connect } from 'react-redux';
