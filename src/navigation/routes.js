@@ -22,10 +22,7 @@ MovieList: {
     }
 },
 MovieShow: { 
-    screen: MovieShow,
-    navigationOptions: {
-        title: 'Search Results'
-    }
+    screen: MovieShow
 }
 });
 

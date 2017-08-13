@@ -41,7 +41,7 @@ countType(type) {
         return countTypes.length;
     }
 navigateTo(movie) {
-  this.props.navigation.navigate('MovieShow', { movie });
+  this.props.navigation.navigate('MovieShow', movie);
 }
 renderRow = (movie) => {
 return <MovieListItem navigation={this.props.navigation} onPress={(to) => this.navigateTo(to)} movie={movie} />;
