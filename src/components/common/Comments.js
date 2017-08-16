@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import { Card, List, ListItem, Left, Thumbnail, Body, Text, Right } from 'native-base';
 
 import * as actions from '../../actions/comments';
@@ -53,7 +54,7 @@ class Comments extends Component {
         <List
             dataArray={this.props.comments} 
             renderRow={data =>
-            <TouchableWithoutFeedback onLongPress={() => this.popUpDelete(data.uid)}>
+            <TouchableWithoutFeedback onLongPress={data.userId === firebase.auth().currentUser.uid ? () => this.popUpDelete(data.uid) : null }>
               <ListItem avatar>
                 <Left>
                   <Thumbnail source={{ uri: 'https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg' }} />
