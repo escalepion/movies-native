@@ -5,7 +5,8 @@ import {
     CLEAR_MOVIE_COMMENTS,
     COMMENT_SEND_LOADING,
     COMMENT_REMOVED,
-    INJECT_MOVIE_COMMENT
+    INJECT_MOVIE_COMMENT,
+    REMOVE_COMMENT
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,12 @@ const INITIAL_STATE = {
 
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case REMOVE_COMMENT:
+            console.log(action.payload);
+            return { ...state, 
+                commentsArray: [...state.commentsArray].filter((item) => {
+                    return item.uid !== action.payload;
+            }) };
         case INJECT_MOVIE_COMMENT:
             return { ...state, commentsArray: [...state.commentsArray, action.payload] };
         case CLEAR_MOVIE_COMMENTS:

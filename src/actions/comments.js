@@ -6,7 +6,8 @@ import {
     CLEAR_MOVIE_COMMENTS,
     COMMENT_SEND_LOADING,
     COMMENT_REMOVED,
-    INJECT_MOVIE_COMMENT
+    INJECT_MOVIE_COMMENT,
+    REMOVE_COMMENT
 } from './types';
 
 export function addComment({ comment }, id) {
@@ -19,7 +20,7 @@ export function addComment({ comment }, id) {
             comment,
             userId: currentUser.uid
         })
-        .then(function () {
+        .then(() => {
             dispatch({ type: ADD_COMMENT_FEEDBACK, payload: 'Comment Added Successfuly' });
             dispatch(setCommentSendLoading(false));
 //             setTimeout(() => {
@@ -47,7 +48,8 @@ export const deleteComment = (movieId, commentId) => {
         firebase.database().ref(`comments/${movieId}/${commentId}`)
         .remove()
         .then(
-            dispatch({ type: COMMENT_REMOVED, payload: 'Comment removed' })
+            dispatch({ type: COMMENT_REMOVED, payload: 'Comment removed' }),
+            // dispatch({ type: REMOVE_COMMENT, payload: commentId })
         )
         .then(setTimeout(() => {
                 dispatch({ type: COMMENT_REMOVED, payload: null });
@@ -84,9 +86,13 @@ export function fetchMovieComments(id) {
                 commentData.name = snap.val().name;
                 dispatch({ type: INJECT_MOVIE_COMMENT, payload: commentData });
             }).catch(err => console.log(err));
-            dispatch({ type: FETCH_MOVIE_COMMENTS, payload: snapshot.val()});
+            dispatch({ type: FETCH_MOVIE_COMMENTS, payload: snapshot.val() });
         });
-    }
+        ref.on('child_removed', (snapshot) => {
+            const removedId = snapshot.key;
+            dispatch({ type: REMOVE_COMMENT, payload: removedId });
+        });
+    };
 }
 
 export function clearMovieComments() {
