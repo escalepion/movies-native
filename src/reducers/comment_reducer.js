@@ -4,20 +4,24 @@ import {
     FETCH_MOVIE_COMMENTS,
     CLEAR_MOVIE_COMMENTS,
     COMMENT_SEND_LOADING,
-    COMMENT_REMOVED
+    COMMENT_REMOVED,
+    INJECT_MOVIE_COMMENT
 } from '../actions/types';
 
 const INITIAL_STATE = {
     feedback: null,
     movieComments: null,
     commentSendLoading: false,
-    removeMessage: null
+    removeMessage: null,
+    commentsArray: []
 };
 
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
+        case INJECT_MOVIE_COMMENT:
+            return { ...state, commentsArray: [...state.commentsArray, action.payload] };
         case CLEAR_MOVIE_COMMENTS:
-            return { ...state, movieComments: null };
+            return { ...state, commentsArray: [] };
         case FETCH_MOVIE_COMMENTS:
             return { ...state, movieComments: action.payload };
         case ADD_COMMENT_FEEDBACK:

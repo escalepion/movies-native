@@ -5,7 +5,8 @@ import {
     FETCH_MOVIE_COMMENTS,
     CLEAR_MOVIE_COMMENTS,
     COMMENT_SEND_LOADING,
-    COMMENT_REMOVED
+    COMMENT_REMOVED,
+    INJECT_MOVIE_COMMENT
 } from './types';
 
 export function addComment({ comment }, id) {
@@ -73,8 +74,17 @@ export const setCommentSendLoading = (status) => {
 export function fetchMovieComments(id) {
     const ref = firebase.database().ref(`comments/${id}`);
     return (dispatch) => {
-        ref.on('value', function (snapshot) {
-            dispatch({ type: FETCH_MOVIE_COMMENTS, payload: snapshot.val() });
+        ref.on('child_added', (snapshot) => {
+            console.log('aaaaaa');
+            const commentData = snapshot.val();
+            commentData.uid = snapshot.key;
+            const userRef = firebase.database().ref(`users/${snapshot.val().userId}`);
+            userRef.once('value', (snap) => {
+                console.log('bbbb');
+                commentData.name = snap.val().name;
+                dispatch({ type: INJECT_MOVIE_COMMENT, payload: commentData });
+            }).catch(err => console.log(err));
+            dispatch({ type: FETCH_MOVIE_COMMENTS, payload: snapshot.val()});
         });
     }
 }

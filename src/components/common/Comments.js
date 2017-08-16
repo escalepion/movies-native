@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
@@ -58,12 +58,9 @@ class Comments extends Component {
                   <Thumbnail source={{ uri: 'https://s3.amazonaws.com/37assets/svn/1065-IMG_2529.jpg' }} />
                 </Left>
                 <Body>
+                  <Text numberOfLines={3} note>{data.name}</Text>
                   <Text>{data.comment}</Text>
-                  <Text numberOfLines={3} note>{data.comment}</Text>
                 </Body>
-                <Right>
-                  <Text note>3.43</Text>
-                </Right>
               </ListItem>
             </TouchableWithoutFeedback>
         }
@@ -81,9 +78,10 @@ class Comments extends Component {
 }
 
 function mapStateToProps(state) {
-    const comments = _.map(state.comments.movieComments, (val, uid) => {
-        return { ...val, uid };
-    });
+    // const comments = _.map(state.comments.movieComments, (val, uid) => {
+    //     return { ...val, uid };
+    // });
+    const comments = state.comments.commentsArray;
     return { comments, removeMessage: state.comments.removeMessage };
 }
 
