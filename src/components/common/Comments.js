@@ -39,7 +39,7 @@ class Comments extends Component {
     }
     render() {
         if (this.props.removeMessage) { console.log(this.props.removeMessage); }
-        console.log('comments: ', this.props.comments);
+        // console.log('comments: ', this.props.comments);
         if (this.props.comments.length === 0) {
             return (
                 <Card>

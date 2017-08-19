@@ -12,13 +12,15 @@ import {
 
 export function addComment({ comment }, id) {
     const { currentUser } = firebase.auth();
+    const date = Date.now();
     if (currentUser) {
     return (dispatch) => {
         dispatch(setCommentSendLoading(true));
         firebase.database().ref(`comments/${id}`)
         .push({
             comment,
-            userId: currentUser.uid
+            userId: currentUser.uid,
+            date
         })
         .then(() => {
             dispatch({ type: ADD_COMMENT_FEEDBACK, payload: 'Comment Added Successfuly' });
@@ -74,6 +76,7 @@ export const setCommentSendLoading = (status) => {
 };
  
 export function fetchMovieComments(id) {
+    console.log('tattaaaa');
     const ref = firebase.database().ref(`comments/${id}`);
     return (dispatch) => {
         ref.on('child_added', (snapshot) => {
@@ -84,8 +87,8 @@ export function fetchMovieComments(id) {
             userRef.once('value', (snap) => {
                 console.log('bbbb');
                 commentData.name = snap.val().name;
-                dispatch({ type: INJECT_MOVIE_COMMENT, payload: commentData });
             }).catch(err => console.log(err));
+            dispatch({ type: INJECT_MOVIE_COMMENT, payload: commentData });
             dispatch({ type: FETCH_MOVIE_COMMENTS, payload: snapshot.val() });
         });
         ref.on('child_removed', (snapshot) => {

@@ -26,7 +26,7 @@ export default function (state = INITIAL_STATE, action) {
                     return item.uid !== action.payload;
             }) };
         case INJECT_MOVIE_COMMENT:
-            return { ...state, commentsArray: [...state.commentsArray, action.payload] };
+            return { ...state, commentsArray: [action.payload, ...state.commentsArray] };
         case CLEAR_MOVIE_COMMENTS:
             return { ...state, commentsArray: [] };
         case FETCH_MOVIE_COMMENTS:
